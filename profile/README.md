@@ -1,416 +1,390 @@
-# ClientPull Digital
+🧠 CLIENTPULL DIGITAL — ENGINEERING WORKFLOW CONTRACT
+(Frontend ↔ Backend Collaboration Rules)
+
+1. Core Principle (NON-NEGOTIABLE)
+
+We do not build features directly. We build contracts first, then implementation.
+
+Every feature must follow this order:
+
+1. Define behavior (what it should do)
+2. Define API contract (how frontend + backend communicate)
+3. Implement backend
+4. Implement frontend
+5. Test integration
+6. Merge to production
+
+No step can be skipped.
+
+2. ROLE BOUNDARIES (VERY IMPORTANT)
+   🎨 Frontend Developer (You)
+   Responsibilities:
+   Build UI based on design system
+   Consume backend APIs (do NOT design API logic)
+   Validate API responses in frontend usage
+   Handle UI states:
+   loading
+   success
+   error
+   Ensure responsiveness and UX consistency
+   You DO NOT:
+   change backend logic
+   assume API behavior without documentation
+   bypass API contracts
+   ⚙️ Backend Developer (Simon)
+   Responsibilities:
+   Design API structure
+   Build business logic
+   Manage database and data flow
+   Ensure API stability
+   Provide documentation for every endpoint
+   Ensure predictable responses
+   He DOES NOT:
+   assume frontend needs
+   change API without versioning
+   deploy untested endpoints
+3. API CONTRACT RULE (MOST IMPORTANT RULE)
+
+Every feature MUST include a contract before coding.
+
+Example Contract:
+Feature: “Create Delivery Request”
+POST /delivery/request
+Request:
+{
+"businessId": "string",
+"pickupLocation": "string",
+"destination": "string",
+"itemDescription": "string"
+}
+Response:
+{
+"success": true,
+"requestId": "string",
+"status": "pending"
+}
+RULE:
+
+Frontend can ONLY build based on this contract.
+
+4. FEATURE WORKFLOW (TEAM RULE)
+
+Every feature MUST follow this lifecycle:
+
+Step 1 — Feature Definition
+Write what problem we are solving
+Step 2 — API Contract Draft
+Backend writes endpoints + request/response
+Step 3 — Agreement
+Frontend + Backend approve contract
+Step 4 — Backend Implementation
+Backend builds logic
+Step 5 — Frontend Integration
+Frontend consumes API
+Step 6 — Testing
+Both verify behavior using real requests
+Step 7 — Pull Request Review 5. GIT BRANCH RULES
+
+Inside GitHub:
+
+Branch Structure:
+main → production (DO NOT TOUCH DIRECTLY)
+dev → integration
+feature/\* → individual work
+RULE:
+No direct push to main
+Every feature must go through Pull Request
+Every PR must pass CI checks 6. API CHANGE RULE (CRITICAL FOR BACKEND)
+
+Backend CANNOT:
+
+change request format without warning
+rename endpoints without versioning
+break existing responses
+If change is required:
 
-## Agency Operational Structure, Roles, and Collaboration Guidelines
+Must:
 
----
+create new version
 
-# 1. Introduction
+Example:
 
-This document defines the operational structure, team responsibilities, collaboration workflow, repository management standards, and development principles of ClientPull Digital.
+/v1/delivery/request
+/v2/delivery/request 7. FRONTEND API USAGE RULE
 
-The purpose of this document is to:
+Frontend MUST:
 
-- Establish clarity within the team
-- Prevent workflow confusion and project disorder
-- Define responsibilities and expectations
-- Create a professional software development environment
-- Maintain structured collaboration as the agency grows
+never guess API response
+never hardcode backend behavior
+always handle failure states
+Required UI states:
+loading state
+success state
+error state
+empty state 8. COMMUNICATION RULE
 
-This document serves as the foundational operational guide for all current and future members of the agency.
+Before building any feature:
 
----
+Required discussion:
+What is being built?
+What endpoints are needed?
+What does success look like?
+What are failure cases?
 
-# 2. Agency Vision
+No silent implementation.
 
-ClientPull Digital is focused on helping businesses and organizations transition from manual and unstructured operations into efficient digital systems.
+9. TESTING RULE (PREVENTS BREAKING PRODUCTION)
 
-The agency specializes in:
+Before merging:
 
-- Business websites
-- Customer access systems
-- Workflow and operations systems
-- Inventory and management systems
-- Delivery and logistics coordination systems
-- Custom software solutions tailored to business operations
+Backend must provide:
+sample request
+sample response
+test proof (Postman / logs)
+Frontend must verify:
+API works in UI
+error handling works
+no broken states 10. PRODUCTION SAFETY RULE (MOST IMPORTANT)
 
-The long-term objective is not only to build websites, but to build systems that solve operational problems and improve business efficiency.
+A feature is ONLY allowed into production if:
 
----
+✔ API contract is followed
+✔ CI checks pass
+✔ PR approved
+✔ Both frontend and backend tested integration
+✔ No breaking changes
 
-# 3. Team Structure and Roles
+11. FINAL PRINCIPLE (TEAM MINDSET)
 
-## 3.1 Sadick Sulley — Frontend Developer
+“We do not push code to production. We push verified systems that behave exactly as defined in the contract.”
 
-### Primary Responsibility
+If you want next upgrade (VERY RECOMMENDED)
 
-Responsible for developing and implementing the visual and interactive parts of web applications and systems.
+I can help you build:
 
-### Core Duties
+1. PR Template (forces Simon to document everything)
+2. GitHub Issue template (forces structured tasks)
+3. API contract template file (so every feature starts correctly)
+4. CI checks that validate API format automatically
 
-- Build responsive user interfaces
-- Translate UI/UX designs into functional web interfaces
-- Ensure applications work across different screen sizes and devices
-- Implement frontend interactions and user experiences
-- Organize frontend project structure
-- Collaborate with the backend developer for API integration
-- Maintain clean, reusable, and scalable frontend code
-- Ensure consistency in frontend design implementation
+This combination will basically make your system production-safe even for a beginner team.
 
-### Professional Expectations
+I want a refined version of the document like about the rules and roles for the agency including this in the document if it will make sense for it to be there if not just provide anything.
+Agency Operational Structure And Roles
+ClientPull Digital
+Agency Operating System: Roles, Rules, and Engineering Standards
 
-- Maintain structured component architecture
-- Follow agreed frontend coding standards
-- Communicate implementation challenges early
-- Ensure frontend performance and usability
-- Keep project interfaces professional and user-friendly
+1. Introduction
 
----
+This document defines the operational, technical, and collaboration standards of ClientPull Digital.
 
-## 3.2 Benjamin Arkorful — UI/UX Designer
+It exists to ensure:
 
-### Primary Responsibility
+Predictable software delivery
+Clear role separation
+Stable production systems
+Reduced communication ambiguity
+Scalable engineering practices
 
-Responsible for designing the user experience and interface structure of all systems and websites.
+This is a binding internal working system for all team members.
 
-### Core Duties
+2. Core Operating Principle
 
-- Research and understand user flow requirements
-- Design system layouts and wireframes
-- Create user-friendly interface structures
-- Design consistent visual systems
-- Ensure usability and accessibility standards
-- Build design systems and reusable UI guidelines
-- Collaborate closely with frontend development implementation
-- Ensure design consistency across projects
+We do not build features directly. We build systems through agreed contracts, structured workflows, and controlled releases.
 
-### Professional Expectations
+Every piece of work must follow:
 
-- Prioritize usability over visual complexity
-- Design with business workflows in mind
-- Ensure clean and understandable interfaces
-- Maintain consistency in spacing, typography, and layout
-- Present structured design decisions to the team
+Definition of behavior
+API contract agreement
+Implementation (backend + frontend)
+Testing and validation
+Controlled merge to production
 
----
+No step is optional.
 
-## 3.3 Simon Tindanzor — Fullstack / Backend Systems Developer
+3. Agency Vision
 
-### Primary Responsibility
+ClientPull Digital builds digital systems that solve real operational problems for businesses.
 
-Responsible for backend architecture, system logic, database structure, API development, and overall system functionality.
+Focus areas:
 
-### Core Duties
+Business websites and customer interfaces
+Operational management systems
+Inventory and sales tracking systems
+Delivery and logistics coordination platforms
+Custom business automation tools
 
-- Design and manage backend systems
-- Develop APIs and server-side logic
-- Handle authentication and authorization systems
-- Structure databases and relationships
-- Manage system security and data handling
-- Integrate frontend and backend functionality
-- Ensure scalability and maintainability of systems
-- Build operational logic for business systems
+We prioritize system efficiency over visual complexity.
 
-### Professional Expectations
+4. Team Roles and Responsibilities
+   4.1 Frontend Developer — Sadick Sulley
+   Core Responsibility
 
-- Maintain clean backend architecture
-- Prioritize system security and scalability
-- Ensure stable API structures
-- Document backend endpoints and logic
-- Coordinate integration requirements with frontend development
+Transforms UI/UX designs and backend APIs into functional, responsive user interfaces.
 
----
+Responsibilities
+Build frontend interfaces based on approved designs
+Consume backend APIs strictly via documented contracts
+Handle UI states (loading, success, error, empty)
+Ensure responsive and accessible design implementation
+Maintain frontend architecture and reusable components
+Restrictions
+Must not modify backend logic
+Must not assume API behavior without documentation
+Must not bypass API contracts
+4.2 UI/UX Designer — Benjamin Arkorful
+Core Responsibility
 
-# 4. Development Philosophy
+Defines user experience structure and interface design systems.
 
-ClientPull Digital follows a problem-solving development philosophy.
+Responsibilities
+Design user flows and system layouts
+Create wireframes and interface prototypes
+Define visual hierarchy and interaction patterns
+Ensure usability and consistency across systems
+Focus
+Clarity over complexity
+Function over decoration
+4.3 Backend Developer — Simon Tindanzor
+Core Responsibility
 
-The agency does not build software simply for appearance or trends.
+Builds system logic, APIs, and data architecture.
 
-Every project should:
+Responsibilities
+Design and implement backend systems
+Define API endpoints and data contracts
+Manage database structure and logic
+Ensure system security and reliability
+Provide complete API documentation for all features
+Restrictions
+Must not change APIs without versioning
+Must provide request/response contracts before implementation
+Must ensure backward compatibility 5. Engineering Contract (Frontend ↔ Backend Agreement)
 
-- Solve a real business problem
-- Improve operational efficiency
-- Reduce manual stress and repetitive work
-- Improve customer accessibility
-- Create structured business workflows
-- Be scalable and maintainable
+Every feature MUST follow this structure before development begins.
 
-The agency focuses on understanding how businesses operate before proposing technical solutions.
+Step 1 — Feature Definition
 
----
+What problem are we solving?
 
-# 5. Project Phases and Service Categories
+Step 2 — API Contract
 
-## Phase 1 — Business Visibility & Customer Access
+Backend defines:
 
-### Purpose
+endpoints
+request structure
+response structure
+error formats
 
-Help businesses establish online visibility and customer accessibility.
+Example:
 
-### Types of Solutions
+Endpoint
 
-- Business websites
-- Landing pages
-- Booking systems
-- Contact/request systems
-- Business profile platforms
+POST /delivery/request
 
-### Target Businesses
+Request
+{
+"businessId": "string",
+"pickupLocation": "string",
+"destination": "string",
+"itemDescription": "string"
+}
+Response
+{
+"success": true,
+"requestId": "string",
+"status": "pending"
+}
+Step 3 — Agreement
 
-- Barbershops
-- Salons
-- Restaurants
-- Food vendors
-- Electricians
-- Plumbers
-- Local service providers
-- Small businesses
+Frontend and backend must approve contract before coding.
 
-### Objective
+Step 4 — Implementation
+Backend builds logic
+Frontend builds UI integration
+Step 5 — Testing
 
-Help businesses become accessible online and improve customer communication.
+Both sides validate real API behavior.
 
----
+Step 6 — Merge Approval
 
-## Phase 2 — Business Operations Systems
+Only allowed after successful validation.
 
-### Purpose
+6. GitHub Workflow Standards
 
-Help businesses manage internal operations and reduce manual workflow stress.
+All projects must follow structured version control on GitHub.
 
-### Types of Solutions
+Branch Structure
+main → production (protected)
+dev → integration
+feature/\* → individual work
+Rules
+No direct push to main
+All changes must go through pull requests
+All PRs must pass CI checks 7. API Stability Rules (Backend Critical Rules)
 
-- Inventory systems
-- Sales tracking systems
-- Staff management systems
-- Internal dashboards
-- Workflow management systems
-- Reporting systems
+Backend must:
 
-### Objective
+Never change request/response formats without versioning
+Never break existing endpoints without migration path
+Always maintain backward compatibility
 
-Help businesses:
+If changes are required:
 
-- monitor operations
-- reduce errors
-- improve organization
-- improve internal efficiency
-- manage daily activities in a structured way
+Example:
 
----
+/v1/resource
+/v2/resource 8. Frontend Integration Rules
 
-## Phase 3 — Delivery & Logistics Systems
+Frontend must:
 
-### Purpose
+Use only documented API contracts
+Handle all UI states:
+loading
+success
+error
+empty
+Never assume backend behavior 9. Communication Protocol
 
-Help delivery-based businesses coordinate riders, orders, requests, and operational movement.
+Before building features, the team must agree on:
 
-### Types of Solutions
+Feature objective
+API contract
+Expected behavior
+Edge cases
 
-- Delivery coordination systems
-- Rider request systems
-- Dispatch systems
-- Delivery tracking systems
-- Logistics management platforms
+No silent implementation is allowed.
 
-### Objective
+10. Testing and Quality Assurance
 
-Create structured coordination between:
+No feature is complete without:
 
-- businesses
-- delivery personnel
-- customers
-- operational logistics
+Backend:
 
----
+sample request/response
+test verification (Postman or logs)
 
-# 6. GitHub Organization Structure
+Frontend:
 
-The agency operates using a GitHub Organization.
+UI integration validation
+error state validation 11. Production Safety Rule
 
-This allows:
+A feature is only allowed into production when:
 
-- structured collaboration
-- centralized project ownership
-- repository access management
-- scalable team coordination
-- professional workflow management
+API contract is followed
+CI checks pass
+Pull request is approved
+Frontend and backend integration is tested
+No breaking changes exist 12. Final Principle
 
-The organization represents the agency, while personal GitHub accounts represent individual team identities.
+We do not deploy code. We deploy verified, contract-driven systems that behave predictably in production.
 
----
+13. Long-Term Direction
 
-# 7. Repository Management Rules
+ClientPull Digital evolves toward a structured systems engineering agency focused on:
 
-## General Rule
-
-All agency-related projects must be created under the GitHub Organization.
-
-### Examples
-
-Agency projects:
-
-- agency website
-- client systems
-- internal tools
-- shared libraries
-
-must belong to:
-
-- the organization
-
-not personal accounts.
-
----
-
-## Personal Repositories
-
-Personal accounts may contain:
-
-- learning projects
-- experiments
-- tutorials
-- personal practice repositories
-
----
-
-# 8. Branching Strategy
-
-The agency follows a structured branching workflow.
-
-## Main Branches
-
-### `main`
-
-Contains stable, production-ready code only.
-
-### `dev`
-
-Contains integration and testing work before production deployment.
-
-### `feature/*`
-
-Contains isolated development work for specific features.
-
-Examples:
-
-- feature/navbar-ui
-- feature/login-system
-- feature/dashboard-layout
-
----
-
-# 9. Pull Request Policy
-
-No developer should push directly to the `main` branch.
-
-### Required Workflow
-
-1. Create feature branch
-2. Develop feature
-3. Push branch
-4. Open Pull Request
-5. Team review
-6. Merge after approval
-
-### Purpose
-
-This prevents:
-
-- accidental code conflicts
-- unstable production code
-- unreviewed changes
-- workflow confusion
-
----
-
-# 10. Communication Standards
-
-The team must maintain clear communication throughout development.
-
-## Communication Platforms
-
-Used for:
-
-- discussions
-- task coordination
-- progress updates
-- feature clarification
-- project planning
-
-## Expectations
-
-- Discuss major implementation decisions before development
-- Communicate blockers early
-- Maintain professional collaboration
-- Keep discussions focused and organized
-
----
-
-# 11. Task Management Workflow
-
-Each project task should follow a structured process.
-
-## Workflow
-
-1. Identify task or feature
-2. Create GitHub Issue
-3. Assign responsible member
-4. Create feature branch
-5. Implement feature
-6. Submit Pull Request
-7. Review and merge
-
----
-
-# 12. Code Quality Standards
-
-All team members are expected to:
-
-- Write clean and understandable code
-- Maintain consistent file organization
-- Use meaningful commit messages
-- Avoid unnecessary complexity
-- Keep systems maintainable
-- Reuse components where appropriate
-
----
-
-# 13. Collaboration Principles
-
-The agency operates as a coordinated engineering team.
-
-Every member is expected to:
-
-- Respect structured workflows
-- Maintain accountability
-- Collaborate professionally
-- Contribute to system quality
-- Support project organization
-
-The objective is not simply to write code, but to build reliable systems collaboratively.
-
----
-
-# 14. Long-Term Direction
-
-ClientPull Digital aims to evolve into a structured digital systems agency capable of:
-
-- Building operational business systems
-- Creating scalable logistics platforms
-- Supporting businesses through digital transformation
-- Developing maintainable software infrastructure
-- Expanding into larger organizational software solutions
-
----
-
-# 15. Final Principle
-
-The agency prioritizes:
-
-- structure over chaos
-- collaboration over isolated work
-- systems over temporary solutions
-- professionalism over improvisation
-
-Every member is responsible for maintaining the operational quality and long-term vision of the agency.
+Business operational systems
+Logistics and delivery platforms
+Scalable backend architectures
+Maintainable frontend systems
+Real-world digital transformation solutions

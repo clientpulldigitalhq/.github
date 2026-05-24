@@ -1,390 +1,282 @@
-🧠 CLIENTPULL DIGITAL — ENGINEERING WORKFLOW CONTRACT
-(Frontend ↔ Backend Collaboration Rules)
+<div align="center">
 
-1. Core Principle (NON-NEGOTIABLE)
+# ClientPull Digital
 
-We do not build features directly. We build contracts first, then implementation.
+### Agency Operating System
 
-Every feature must follow this order:
+**Roles, Rules & Standards**
 
-1. Define behavior (what it should do)
-2. Define API contract (how frontend + backend communicate)
-3. Implement backend
-4. Implement frontend
-5. Test integration
-6. Merge to production
+![Version](https://img.shields.io/badge/Version-1.0-orange?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Active-green?style=flat-square)
+![Classification](https://img.shields.io/badge/Classification-Internal%20Only-gray?style=flat-square)
 
-No step can be skipped.
+---
 
-2. ROLE BOUNDARIES (VERY IMPORTANT)
-   🎨 Frontend Developer (You)
-   Responsibilities:
-   Build UI based on design system
-   Consume backend APIs (do NOT design API logic)
-   Validate API responses in frontend usage
-   Handle UI states:
-   loading
-   success
-   error
-   Ensure responsiveness and UX consistency
-   You DO NOT:
-   change backend logic
-   assume API behavior without documentation
-   bypass API contracts
-   ⚙️ Backend Developer (Simon)
-   Responsibilities:
-   Design API structure
-   Build business logic
-   Manage database and data flow
-   Ensure API stability
-   Provide documentation for every endpoint
-   Ensure predictable responses
-   He DOES NOT:
-   assume frontend needs
-   change API without versioning
-   deploy untested endpoints
-3. API CONTRACT RULE (MOST IMPORTANT RULE)
+_We do not build features directly._
+_We build systems through agreed contracts, structured workflows, and controlled releases._
 
-Every feature MUST include a contract before coding.
+</div>
 
-Example Contract:
-Feature: “Create Delivery Request”
-POST /delivery/request
-Request:
+---
+
+## Table of Contents
+
+- [Introduction](#1-introduction)
+- [Agency Vision](#2-agency-vision)
+- [Team Roles](#3-team-roles--responsibilities)
+- [Feature Workflow](#4-feature-development-workflow)
+- [API Contract Standard](#5-api-contract-standard)
+- [Git & GitHub Workflow](#6-git--github-workflow)
+- [Team Rules](#7-team-rules)
+- [Communication Protocol](#8-communication-protocol)
+- [Production Safety Checklist](#9-production-safety-checklist)
+- [Long-Term Direction](#10-long-term-direction)
+
+---
+
+## 1. Introduction
+
+This document defines the operational, technical, and collaboration standards of **ClientPull Digital**. It is a binding internal working guide for all team members and must be followed on every project.
+
+This document exists to ensure:
+
+- Predictable software delivery on every project
+- Clear boundaries between roles to avoid confusion or overlap
+- Stable, safe production systems that never break unexpectedly
+- Reduced communication ambiguity across the team
+- Scalable practices that grow with the agency
+
+---
+
+## 2. Agency Vision
+
+ClientPull Digital builds digital systems that solve real operational problems for businesses. We deliver functional, reliable systems — not just beautiful interfaces.
+
+**Core Focus Areas:**
+
+- Business websites and customer-facing interfaces
+- Operational management and workflow systems
+- Inventory and sales tracking platforms
+- Delivery and logistics coordination systems
+- Custom business automation and integration tools
+
+> **We prioritize system efficiency over visual complexity.**
+> **We deliver verified systems, not just shipped code.**
+
+---
+
+## 3. Team Roles & Responsibilities
+
+### 🖥️ Sadick Sulley — Frontend Developer
+
+**Core Responsibility:** Transforms UI/UX designs and backend APIs into functional, responsive user interfaces.
+
+| Responsibilities                                                | Restrictions                                        |
+| --------------------------------------------------------------- | --------------------------------------------------- |
+| Build frontend interfaces based on approved designs             | Must not modify backend logic or database structure |
+| Consume backend APIs strictly via documented contracts          | Must not assume API behavior without documentation  |
+| Handle all UI states: loading, success, error, and empty        | Must not bypass or work around API contracts        |
+| Ensure responsive and accessible design implementation          | Must not push directly to the `main` branch         |
+| Maintain frontend architecture and reusable components          |                                                     |
+| Collaborate with designer to implement design tokens accurately |                                                     |
+
+---
+
+### 🎨 Benjamin Arkorful — UI/UX Designer
+
+**Core Responsibility:** Defines user experience structure and interface design systems.
+
+**Responsibilities:**
+
+- Design user flows and full system layouts for every feature
+- Create wireframes, mockups, and interactive prototypes
+- Define visual hierarchy, spacing, and interaction patterns
+- Provide design tokens: colors, typography, breakpoints, and spacing
+- Ensure usability and visual consistency across all screens
+- Deliver mobile, tablet, and desktop designs for every page
+
+---
+
+### ⚙️ Simon Tindanzor — Backend Developer
+
+**Core Responsibility:** Builds system logic, APIs, and data architecture.
+
+| Responsibilities                                              | Restrictions                                               |
+| ------------------------------------------------------------- | ---------------------------------------------------------- |
+| Design and implement all backend systems and business logic   | Must not change API structure without versioning           |
+| Define API endpoints and write data contracts before building | Must not deploy untested or undocumented endpoints         |
+| Manage database structure, migrations, and data integrity     | Must not assume frontend requirements without discussion   |
+| Ensure system security, authentication, and reliability       | Must not break existing responses without a migration path |
+| Provide complete API documentation for every endpoint         |                                                            |
+| Maintain backward compatibility across all API versions       |                                                            |
+
+---
+
+## 4. Feature Development Workflow
+
+Every feature — no matter how small — must follow this lifecycle **without skipping any step.**
+
+| Step | Name                       | Requirement                                                                                         |
+| :--: | -------------------------- | --------------------------------------------------------------------------------------------------- |
+| `01` | **Feature Definition**     | Write clearly what problem is being solved and what the expected outcome is. No ambiguity.          |
+| `02` | **API Contract Draft**     | Backend defines all endpoints, request structure, response structure, and error formats in writing. |
+| `03` | **Team Agreement**         | Frontend and backend both review and approve the contract before any code is written.               |
+| `04` | **Backend Implementation** | Backend builds the logic based on the approved contract. No deviation from the agreed structure.    |
+| `05` | **Frontend Integration**   | Frontend builds the UI and connects to the API strictly according to the documented contract.       |
+| `06` | **Integration Testing**    | Both sides validate real API behavior together. All UI states must be verified.                     |
+| `07` | **Pull Request & Review**  | Code is submitted via PR, reviewed, and merged only after passing all checks.                       |
+
+---
+
+## 5. API Contract Standard
+
+An API contract is a **written agreement** between frontend and backend that defines exactly how they will communicate for a given feature. No feature is built without one.
+
+**Every contract must include:**
+
+- The feature name and what problem it solves
+- The HTTP method and endpoint URL
+- The full request body structure with field types
+- The full success response structure
+- All possible error responses and their codes
+
+### Contract Example — Create Delivery Request
+
+```
+Feature:   Create Delivery Request
+Endpoint:  POST /api/v1/delivery/request
+```
+
+**Request Body:**
+
+```json
 {
-"businessId": "string",
-"pickupLocation": "string",
-"destination": "string",
-"itemDescription": "string"
+  "businessId": "string",
+  "pickupLocation": "string",
+  "destination": "string",
+  "itemDescription": "string"
 }
-Response:
+```
+
+**Success Response `200`:**
+
+```json
 {
-"success": true,
-"requestId": "string",
-"status": "pending"
+  "success": true,
+  "requestId": "string",
+  "status": "pending"
 }
-RULE:
+```
 
-Frontend can ONLY build based on this contract.
+**Error Response `400`:**
 
-4. FEATURE WORKFLOW (TEAM RULE)
-
-Every feature MUST follow this lifecycle:
-
-Step 1 — Feature Definition
-Write what problem we are solving
-Step 2 — API Contract Draft
-Backend writes endpoints + request/response
-Step 3 — Agreement
-Frontend + Backend approve contract
-Step 4 — Backend Implementation
-Backend builds logic
-Step 5 — Frontend Integration
-Frontend consumes API
-Step 6 — Testing
-Both verify behavior using real requests
-Step 7 — Pull Request Review 5. GIT BRANCH RULES
-
-Inside GitHub:
-
-Branch Structure:
-main → production (DO NOT TOUCH DIRECTLY)
-dev → integration
-feature/\* → individual work
-RULE:
-No direct push to main
-Every feature must go through Pull Request
-Every PR must pass CI checks 6. API CHANGE RULE (CRITICAL FOR BACKEND)
-
-Backend CANNOT:
-
-change request format without warning
-rename endpoints without versioning
-break existing responses
-If change is required:
-
-Must:
-
-create new version
-
-Example:
-
-/v1/delivery/request
-/v2/delivery/request 7. FRONTEND API USAGE RULE
-
-Frontend MUST:
-
-never guess API response
-never hardcode backend behavior
-always handle failure states
-Required UI states:
-loading state
-success state
-error state
-empty state 8. COMMUNICATION RULE
-
-Before building any feature:
-
-Required discussion:
-What is being built?
-What endpoints are needed?
-What does success look like?
-What are failure cases?
-
-No silent implementation.
-
-9. TESTING RULE (PREVENTS BREAKING PRODUCTION)
-
-Before merging:
-
-Backend must provide:
-sample request
-sample response
-test proof (Postman / logs)
-Frontend must verify:
-API works in UI
-error handling works
-no broken states 10. PRODUCTION SAFETY RULE (MOST IMPORTANT)
-
-A feature is ONLY allowed into production if:
-
-✔ API contract is followed
-✔ CI checks pass
-✔ PR approved
-✔ Both frontend and backend tested integration
-✔ No breaking changes
-
-11. FINAL PRINCIPLE (TEAM MINDSET)
-
-“We do not push code to production. We push verified systems that behave exactly as defined in the contract.”
-
-If you want next upgrade (VERY RECOMMENDED)
-
-I can help you build:
-
-1. PR Template (forces Simon to document everything)
-2. GitHub Issue template (forces structured tasks)
-3. API contract template file (so every feature starts correctly)
-4. CI checks that validate API format automatically
-
-This combination will basically make your system production-safe even for a beginner team.
-
-I want a refined version of the document like about the rules and roles for the agency including this in the document if it will make sense for it to be there if not just provide anything.
-Agency Operational Structure And Roles
-ClientPull Digital
-Agency Operating System: Roles, Rules, and Engineering Standards
-
-1. Introduction
-
-This document defines the operational, technical, and collaboration standards of ClientPull Digital.
-
-It exists to ensure:
-
-Predictable software delivery
-Clear role separation
-Stable production systems
-Reduced communication ambiguity
-Scalable engineering practices
-
-This is a binding internal working system for all team members.
-
-2. Core Operating Principle
-
-We do not build features directly. We build systems through agreed contracts, structured workflows, and controlled releases.
-
-Every piece of work must follow:
-
-Definition of behavior
-API contract agreement
-Implementation (backend + frontend)
-Testing and validation
-Controlled merge to production
-
-No step is optional.
-
-3. Agency Vision
-
-ClientPull Digital builds digital systems that solve real operational problems for businesses.
-
-Focus areas:
-
-Business websites and customer interfaces
-Operational management systems
-Inventory and sales tracking systems
-Delivery and logistics coordination platforms
-Custom business automation tools
-
-We prioritize system efficiency over visual complexity.
-
-4. Team Roles and Responsibilities
-   4.1 Frontend Developer — Sadick Sulley
-   Core Responsibility
-
-Transforms UI/UX designs and backend APIs into functional, responsive user interfaces.
-
-Responsibilities
-Build frontend interfaces based on approved designs
-Consume backend APIs strictly via documented contracts
-Handle UI states (loading, success, error, empty)
-Ensure responsive and accessible design implementation
-Maintain frontend architecture and reusable components
-Restrictions
-Must not modify backend logic
-Must not assume API behavior without documentation
-Must not bypass API contracts
-4.2 UI/UX Designer — Benjamin Arkorful
-Core Responsibility
-
-Defines user experience structure and interface design systems.
-
-Responsibilities
-Design user flows and system layouts
-Create wireframes and interface prototypes
-Define visual hierarchy and interaction patterns
-Ensure usability and consistency across systems
-Focus
-Clarity over complexity
-Function over decoration
-4.3 Backend Developer — Simon Tindanzor
-Core Responsibility
-
-Builds system logic, APIs, and data architecture.
-
-Responsibilities
-Design and implement backend systems
-Define API endpoints and data contracts
-Manage database structure and logic
-Ensure system security and reliability
-Provide complete API documentation for all features
-Restrictions
-Must not change APIs without versioning
-Must provide request/response contracts before implementation
-Must ensure backward compatibility 5. Engineering Contract (Frontend ↔ Backend Agreement)
-
-Every feature MUST follow this structure before development begins.
-
-Step 1 — Feature Definition
-
-What problem are we solving?
-
-Step 2 — API Contract
-
-Backend defines:
-
-endpoints
-request structure
-response structure
-error formats
-
-Example:
-
-Endpoint
-
-POST /delivery/request
-
-Request
+```json
 {
-"businessId": "string",
-"pickupLocation": "string",
-"destination": "string",
-"itemDescription": "string"
+  "success": false,
+  "error": "Missing required field: destination"
 }
-Response
-{
-"success": true,
-"requestId": "string",
-"status": "pending"
-}
-Step 3 — Agreement
+```
 
-Frontend and backend must approve contract before coding.
+---
 
-Step 4 — Implementation
-Backend builds logic
-Frontend builds UI integration
-Step 5 — Testing
+> ### ⚠️ API Versioning Rule — Critical
+>
+> If any existing API endpoint needs to change, the backend **must create a new version**. The old version must remain functional until both sides have fully migrated.
+>
+> ```
+> Old:  /api/v1/delivery/request
+> New:  /api/v2/delivery/request  ← Create this, do NOT modify v1
+> ```
 
-Both sides validate real API behavior.
+---
 
-Step 6 — Merge Approval
+## 6. Git & GitHub Workflow
 
-Only allowed after successful validation.
+All projects use a structured branching strategy. This protects production from untested or incomplete code.
 
-6. GitHub Workflow Standards
+| Branch      | Purpose                 | Rule                                                              |
+| ----------- | ----------------------- | ----------------------------------------------------------------- |
+| `main`      | Live production code    | **PROTECTED** — No direct pushes. PRs only, must be approved.     |
+| `dev`       | Integration / staging   | All reviewed work merges here first before going to `main`.       |
+| `feature/*` | Individual feature work | Each feature gets its own branch. PRs target `dev`, never `main`. |
 
-All projects must follow structured version control on GitHub.
+**Branch naming examples:**
 
-Branch Structure
-main → production (protected)
-dev → integration
-feature/\* → individual work
-Rules
-No direct push to main
-All changes must go through pull requests
-All PRs must pass CI checks 7. API Stability Rules (Backend Critical Rules)
+```
+feature/contact-form-api
+feature/delivery-request-ui
+feature/auth-login
+```
 
-Backend must:
+---
 
-Never change request/response formats without versioning
-Never break existing endpoints without migration path
-Always maintain backward compatibility
+## 7. Team Rules
 
-If changes are required:
+|     | Rule                         | Requirement                                                                                     |
+| :-: | ---------------------------- | ----------------------------------------------------------------------------------------------- |
+| 📋  | **Contract First**           | Every feature must have an approved API contract before any implementation begins.              |
+| 🔒  | **No Direct Push to Main**   | All code changes must go through a pull request. No exceptions.                                 |
+| 📖  | **API Documentation**        | Every endpoint must be documented with full request, response, and error formats.               |
+| 🔄  | **API Versioning**           | Backend cannot modify existing endpoint structure. New behavior requires a new version.         |
+| ⚡  | **Handle All UI States**     | Frontend must handle loading, success, error, and empty states for every API-connected element. |
+| 🚫  | **No Hardcoded Values**      | Credentials, API keys, base URLs must use environment variables — never hardcoded in code.      |
+| 🧪  | **Test Before Merge**        | Backend provides Postman proof. Frontend verifies all states in the actual UI.                  |
+| 💬  | **No Silent Implementation** | No feature may be built without prior team discussion on objectives, contract, and edge cases.  |
 
-Example:
+---
 
-/v1/resource
-/v2/resource 8. Frontend Integration Rules
+## 8. Communication Protocol
 
-Frontend must:
+Before any feature is built, the team must align on these four questions. Every feature discussion must answer all of them before anyone starts coding.
 
-Use only documented API contracts
-Handle all UI states:
-loading
-success
-error
-empty
-Never assume backend behavior 9. Communication Protocol
+> ❓ **What exactly are we building and what problem does it solve?**
 
-Before building features, the team must agree on:
+> 🔗 **What API endpoints are needed and what is the contract?**
 
-Feature objective
-API contract
-Expected behavior
-Edge cases
+> ✅ **What does a successful implementation look like?**
 
-No silent implementation is allowed.
+> ⚠️ **What are the failure cases and how should they be handled?**
 
-10. Testing and Quality Assurance
+---
 
-No feature is complete without:
+## 9. Production Safety Checklist
 
-Backend:
+A feature is only allowed into `main` when **every item** on this checklist is satisfied.
 
-sample request/response
-test verification (Postman or logs)
+- [ ] API contract was agreed upon and followed exactly
+- [ ] All CI checks pass on the pull request
+- [ ] Pull request has been reviewed and approved
+- [ ] Backend has provided sample request, sample response, and Postman verification
+- [ ] Frontend has verified API integration works correctly in the UI
+- [ ] All UI states tested: loading, success, error, and empty
+- [ ] No breaking changes to existing endpoints
+- [ ] No credentials, keys, or secrets are hardcoded in the codebase
+- [ ] Feature branch was merged into `dev` first and tested there
 
-Frontend:
+---
 
-UI integration validation
-error state validation 11. Production Safety Rule
+## 10. Long-Term Direction
 
-A feature is only allowed into production when:
+ClientPull Digital is evolving toward becoming a structured digital agency focused on building real operational systems. Our long-term roadmap focuses on:
 
-API contract is followed
-CI checks pass
-Pull request is approved
-Frontend and backend integration is tested
-No breaking changes exist 12. Final Principle
+- Business operational management systems for SMEs
+- Logistics and delivery coordination platforms
+- Scalable backend architectures designed for growth
+- Maintainable and component-driven frontend systems
+- Real-world digital transformation solutions for African businesses
 
-We do not deploy code. We deploy verified, contract-driven systems that behave predictably in production.
+---
 
-13. Long-Term Direction
+<div align="center">
 
-ClientPull Digital evolves toward a structured systems engineering agency focused on:
+---
 
-Business operational systems
-Logistics and delivery platforms
-Scalable backend architectures
-Maintainable frontend systems
-Real-world digital transformation solutions
+_"We do not deploy code._
+_We deploy verified, contract-driven systems_
+_that behave predictably in production."_
+
+---
+
+**ClientPull Digital** — Internal Use Only
+
+</div>
